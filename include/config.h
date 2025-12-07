@@ -29,75 +29,75 @@ const uint8_t MOTOR_IN2_PIN = 13;   // GPIO 13 - Direction control 2
 const uint8_t MOTOR_ENA_PIN = 14;   // GPIO 14 - PWM speed control
 
 // Servo pins
-const uint8_t SERVO_GRIPPER_PIN = 15;    // GPIO 15 - Gripper servo (MG996)
-// const uint8_t SERVO_ARM_PIN = 16;     // GPIO 16 - Arm servo (NOT USED)
+const uint8_t SERVO_BOX_PIN = 15;        // GPIO 15 - Opens piece box bottom (MG996)
+const uint8_t SERVO_BOARD_LID_PIN = 16;  // GPIO 16 - Opens game board bottom lid
 
-// Pushbutton pins
-const uint8_t BUTTON_STOP_PIN = 17;       // GPIO 17 - Emergency stop
-const uint8_t BUTTON_HOME_PIN = 18;       // GPIO 18 - Home position
-const uint8_t BUTTON_MANUAL_FWD_PIN = 19; // GPIO 19 - Manual forward
-const uint8_t BUTTON_MANUAL_REV_PIN = 20; // GPIO 20 - Manual reverse
-const uint8_t BUTTON_GRIP_PIN = 21;       // GPIO 21 - Manual grip
-const uint8_t BUTTON_LIMIT_PIN = 22;      // GPIO 22 - Limit switch (home)
+// Game button pins (6 buttons total)
+const uint8_t BUTTON_COLUMN_1_PIN = 17;   // GPIO 17 - Select Column 1
+const uint8_t BUTTON_COLUMN_2_PIN = 18;   // GPIO 18 - Select Column 2
+const uint8_t BUTTON_COLUMN_3_PIN = 19;   // GPIO 19 - Select Column 3
+const uint8_t BUTTON_DROP_PIN = 20;       // GPIO 20 - Execute drop
+const uint8_t BUTTON_CONFIRM_PIN = 21;    // GPIO 21 - Confirm selection
+const uint8_t BUTTON_START_OVER_PIN = 22; // GPIO 22 - Start over/Reset game
 
 // Buzzer pin
 const uint8_t BUZZER_PIN = 26;  // GPIO 26
 
 // ============================================================================
-// ROBOT CONFIGURATION
+// GAME CONFIGURATION
 // ============================================================================
 
-// Puzzle piece positions (in millimeters from home)
-const float PUZZLE_POSITIONS[9] = {
-    50.0f,   // Position 1
-    100.0f,  // Position 2
-    150.0f,  // Position 3
-    200.0f,  // Position 4
-    250.0f,  // Position 5
-    300.0f,  // Position 6
-    350.0f,  // Position 7
-    400.0f,  // Position 8
-    450.0f   // Position 9
-};
+// Keypad unlock code (4 digits from Station 7)
+const char UNLOCK_CODE[5] = "1111";  // Temporary: Changed due to keypad reading 4x per press
 
-const float DROP_OFF_POSITION = 500.0f;  // Drop-off location in mm
-const float HOME_POSITION = 0.0f;
+// Column positions (distance from ultrasonic sensor in cm)
+// NOTE: Adjust these values based on your physical setup!
+const float COLUMN_1_DISTANCE_CM = 5.0f;   // Distance to Column 1 (5cm from sensor)
+const float COLUMN_2_DISTANCE_CM = 10.0f;  // Distance to Column 2 (5cm from Col1)
+const float COLUMN_3_DISTANCE_CM = 15.0f;  // Distance to Column 3 (5cm from Col2)
+const float HOME_POSITION_CM = 2.0f;       // Home position distance
 
-// Motor calibration (adjust based on your setup)
-const float MM_PER_SECOND = 50.0f;  // Linear rail speed
+// Distance tolerance for positioning (cm)
+const float DISTANCE_TOLERANCE_CM = 0.5f;
+
+// Motor calibration
 const uint8_t MOTOR_SPEED = 70;      // Motor speed (0-100%)
+const uint32_t MOTOR_TIMEOUT_MS = 10000;  // Safety timeout for motor movement
 
-// Servo positions (MG996 - adjust these values based on your gripper mechanism)
-const float GRIPPER_OPEN_ANGLE = 90.0f;      // Open position
-const float GRIPPER_CLOSED_ANGLE = 30.0f;    // Closed/gripping position
-// const float ARM_UP_ANGLE = 120.0f;        // NOT USED - only 1 servo
-// const float ARM_DOWN_ANGLE = 60.0f;       // NOT USED - only 1 servo
+// Servo #1 - Piece box bottom (drop gate)
+const float BOX_OPEN_ANGLE = 90.0f;       // Box gate open (piece drops)
+const float BOX_CLOSED_ANGLE = 0.0f;      // Box gate closed
+const uint32_t BOX_DROP_TIME_MS = 5000;   // Keep gate open for 5 seconds
 
-// Ultrasonic detection threshold
-const float OBJECT_DETECTION_THRESHOLD_CM = 8.0f;
+// Servo #2 - Board bottom lid (reset/clear all pieces)
+const float LID_OPEN_ANGLE = 90.0f;       // Board lid open (clear all pieces)
+const float LID_CLOSED_ANGLE = 0.0f;      // Board lid closed
+
+// Game rules
+const uint8_t MAX_PIECES_PER_COLUMN = 3;  // 3 pieces per column
+const uint8_t TOTAL_COLUMNS = 3;          // 3 columns total
+const uint8_t TOTAL_PIECES = 9;           // Total 9 pieces (3x3)
 
 // Timing constants
-const uint32_t SERVO_MOVE_TIME_MS = 500;
-const uint32_t PICKUP_DELAY_MS = 300;
-const uint32_t RELEASE_DELAY_MS = 300;
+const uint32_t DEBOUNCE_TIME_MS = 50;
+const uint32_t BUZZER_SUCCESS_DURATION_MS = 2000;
 
 // ============================================================================
 // STATE MACHINE
 // ============================================================================
 
-enum RobotState {
-    STATE_INIT,
-    STATE_HOMING,
-    STATE_IDLE,
-    STATE_WAIT_INPUT,
-    STATE_MOVE_TO_PICKUP,
-    STATE_VERIFY_OBJECT,
-    STATE_PICKUP,
-    STATE_MOVE_TO_DROPOFF,
-    STATE_RELEASE,
-    STATE_RETURN_HOME,
-    STATE_ERROR,
-    STATE_MANUAL_CONTROL
+enum GameState {
+    STATE_INIT,              // Initial setup
+    STATE_LOCKED,            // Web interface locked, waiting for keypad code
+    STATE_UNLOCKED,          // Code entered, waiting for Start button
+    STATE_IDLE,              // Ready for column selection
+    STATE_MOVING_TO_COLUMN,  // Motor moving box to selected column
+    STATE_POSITIONED,        // Box positioned, waiting for Drop button
+    STATE_DROPPING,          // Drop servo opening/closing
+    STATE_COMPLETE,          // All 9 pieces dropped, waiting for Confirm/Start Over
+    STATE_WIN,               // Win sequence (buzzer playing)
+    STATE_RESET,             // Reset servo clearing board
+    STATE_ERROR              // Error state
 };
 
 #endif // CONFIG_H
