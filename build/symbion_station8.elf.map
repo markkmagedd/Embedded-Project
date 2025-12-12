@@ -1245,9 +1245,9 @@ Discarded input sections
                 0x00000000       0x44 lib/buttons/libbuttons_lib.a(Buzzer.cpp.obj)
  .text._ZN6Buzzer13updatePatternEv
                 0x00000000       0x74 lib/buttons/libbuttons_lib.a(Buzzer.cpp.obj)
- .text          0x00000000        0x0 C:\Users\SONDOS~1\AppData\Local\Temp\ccqgwsIi.o
- .data          0x00000000        0x0 C:\Users\SONDOS~1\AppData\Local\Temp\ccqgwsIi.o
- .bss           0x00000000        0x0 C:\Users\SONDOS~1\AppData\Local\Temp\ccqgwsIi.o
+ .text          0x00000000        0x0 C:\Users\SONDOS~1\AppData\Local\Temp\cctIuU6s.o
+ .data          0x00000000        0x0 C:\Users\SONDOS~1\AppData\Local\Temp\cctIuU6s.o
+ .bss           0x00000000        0x0 C:\Users\SONDOS~1\AppData\Local\Temp\cctIuU6s.o
  .data          0x00000000        0x0 C:/PROGRA~1/RASPBE~1/PICOSD~1.1/GCC-AR~1/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
  .bss           0x00000000        0x0 C:/PROGRA~1/RASPBE~1/PICOSD~1.1/GCC-AR~1/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
  .text          0x00000000        0x0 C:/PROGRA~1/RASPBE~1/PICOSD~1.1/GCC-AR~1/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc.a(libc_a-calloc.o)
@@ -1568,7 +1568,7 @@ LOAD C:/PROGRA~1/RASPBE~1/PICOSD~1.1/GCC-AR~1/bin/../lib/gcc/arm-none-eabi/14.3.
 .boot2          0x10000000      0x100
                 0x10000000                        __boot2_start__ = .
  *(.boot2)
- .boot2         0x10000000      0x100 C:\Users\SONDOS~1\AppData\Local\Temp\ccqgwsIi.o
+ .boot2         0x10000000      0x100 C:\Users\SONDOS~1\AppData\Local\Temp\cctIuU6s.o
                 0x10000100                        __boot2_end__ = .
                 0x00000001                        ASSERT (((__boot2_end__ - __boot2_start__) == 0x100), ERROR: Pico second stage bootloader must be 256 bytes in size)
 
@@ -2944,7 +2944,7 @@ LOAD lib/ultrasonic/libultrasonic_lib.a
 LOAD lib/motor/libmotor_lib.a
 LOAD lib/servo/libservo_lib.a
 LOAD lib/buttons/libbuttons_lib.a
-LOAD C:\Users\SONDOS~1\AppData\Local\Temp\ccqgwsIi.o
+LOAD C:\Users\SONDOS~1\AppData\Local\Temp\cctIuU6s.o
 LOAD C:/PROGRA~1/RASPBE~1/PICOSD~1.1/GCC-AR~1/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libstdc++.a
 LOAD C:/PROGRA~1/RASPBE~1/PICOSD~1.1/GCC-AR~1/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libm.a
 START GROUP
@@ -3070,7 +3070,7 @@ LOAD linker stubs
  .ARM.attributes
                 0x0000087e       0x2c lib/buttons/libbuttons_lib.a(Buzzer.cpp.obj)
  .ARM.attributes
-                0x000008aa       0x22 C:\Users\SONDOS~1\AppData\Local\Temp\ccqgwsIi.o
+                0x000008aa       0x22 C:\Users\SONDOS~1\AppData\Local\Temp\cctIuU6s.o
  .ARM.attributes
                 0x000008cc       0x1e C:/PROGRA~1/RASPBE~1/PICOSD~1.1/GCC-AR~1/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
  .ARM.attributes
